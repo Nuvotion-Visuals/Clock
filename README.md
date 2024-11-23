@@ -1,3 +1,3 @@
 # Nuvotion Clock
 
-![image](https://github.com/user-attachments/assets/6db7e2f1-cee4-44fa-8fca-6ccc80bb9375)
+![image](https://github.com/user-attachments/assets/0ad8418a-f195-4c31-867b-139ad04313a5)
