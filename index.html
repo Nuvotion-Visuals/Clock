@@ -4,9 +4,34 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Clock</title>
+
+  <!-- OG -->
+  <meta property="og:image" content="https://clock.nuvotion.live/social-share.png">
+  <meta property="og:title" content="Clock">
+  <meta property="og:description" content="Analog clock with date and weather.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://clock.nuvotion.live/">
+  
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#000000">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="Clock">
+  <meta name="description" content="A beautiful analog clock with weather information">
+  <meta name="mobile-web-app-capable" content="yes">
+  
+  <!-- Icons -->
+  <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  
+  <!-- Styles -->
   <link rel="stylesheet" href="orbit.min.css">
-  <link href="fontawesome.min.css" rel="stylesheet" />
-  <link href="solid.min.css" rel="stylesheet" />
+  <link href="fontawesome.min.css" rel="stylesheet">
+  <link href="solid.min.css" rel="stylesheet">
+
   <style>
     @font-face {
       font-family: 'Nuvo';
@@ -90,6 +115,7 @@
       background: #E60E00;
       transform-origin: 1.5px 100%;
       margin-left: -1.5px;
+      transition: transform 0.3s cubic-bezier(0.25, 1.5, 0.5, 1);
     }
 
     .clock {
@@ -124,7 +150,7 @@
     .weather {
       display: flex;
       flex-wrap: wrap;
-      font-size: 10px;
+      font-size: 12px;
       font-weight: 400;
       justify-content: center;
       letter-spacing: .2em;
@@ -143,6 +169,11 @@
     .temp {
       display: flex;
     }
+
+    _::-webkit-full-page-media, _:future, .hours {
+      letter-spacing: .07em !important;
+    }
+  
   </style>
 </head>
 <body>
@@ -334,8 +365,8 @@
       const seconds = now.getSeconds();
       const milliseconds = now.getMilliseconds();
       const day = now.getDate();
-      const month = now.toLocaleString('en-US', { month: 'short' }); // Abbreviated month name
-      const weekday = now.toLocaleString('en-US', { weekday: 'short' }); // Abbreviated weekday name
+      const month = now.toLocaleString('en-US', { month: 'short' });
+      const weekday = now.toLocaleString('en-US', { weekday: 'short' });
 
       // Set current day
       const dayElement = document.querySelector('.day');
@@ -349,24 +380,18 @@
       const weekdayElement = document.querySelector('.weekday');
       weekdayElement.textContent = weekday;
 
-      // Hour hand: (360° / 12) = 30° per hour
-      // Each minute adds (30° / 60) = 0.5° 
-      // Each second adds (0.5° / 60) = 0.008333...°
-      // Each millisecond adds (0.008333...° / 1000) = 0.000008333...°
       const hourAngle = (hours % 12) * 30 + 
                         minutes * 0.5 + 
                         seconds * (0.5 / 60) + 
                         milliseconds * (0.5 / 60 / 1000);
 
-      // Minute hand: (360° / 60) = 6° per minute
-      // Each second adds (6° / 60) = 0.1°
-      // Each millisecond adds (0.1° / 1000) = 0.0001°
       const minuteAngle = minutes * 6 + 
                           seconds * (6 / 60) + 
                           milliseconds * (6 / 60 / 1000);
 
-      // Second hand: (360° / 60) = 6° per second, no fractional movement
-      const secondAngle = seconds * 6;
+      // For seconds, use the total minutes within the current hour plus seconds
+      const totalSeconds = ((minutes % 60) * 60 + seconds) + (hours * 3600);
+      const secondAngle = totalSeconds * 6;
 
       const hourHand = document.querySelector(".xh");
       const minuteHand = document.querySelector(".xm");
@@ -398,7 +423,7 @@
     // Start both update cycles
     analogWatch();
     smoothUpdate();
-
+    
     async function getWeather(latitude, longitude) {
       try {
         // Default to Chicago coordinates if geolocation fails
@@ -477,9 +502,45 @@
       }
     }
 
-  updateWeather();
-  setInterval(updateWeather, 30 * 60 * 1000);
+    updateWeather();
+    setInterval(updateWeather, 30 * 60 * 1000);
 
+    // Fullscreen toggle function
+    function toggleFullscreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen();
+      } else {
+        document.exitFullscreen();
+      }
+    }
+
+    // Add double-click handler to the document
+    document.addEventListener('dblclick', toggleFullscreen);
+
+    let isHighContrast = false;
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'c' || event.key === 'C') {
+        isHighContrast = !isHighContrast;
+        const secondHand = document.querySelector('.second-hand');
+        if (secondHand) {
+          secondHand.style.background = isHighContrast ? '#E0E1E1' : '#E60E00';
+        }
+      }
+    });
+  </script>
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', async () => {
+        try {
+          const registration = await navigator.serviceWorker.register('./service-worker.js');
+          console.log('ServiceWorker registration successful:', registration.scope);
+        } catch(err) {
+          console.log('ServiceWorker registration failed:', err);
+        }
+      });
+    }
   </script>
 </body>
 </html>
