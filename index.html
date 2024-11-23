@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clock</title>
+  <link rel="stylesheet" href="orbit.min.css">
+  <style>
+    @font-face {
+      font-family: 'Nuvo';
+      src: url('Nuvo.woff2') format('woff2');
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    :root {
+      --Background: black;
+    }
+
+    body {
+      font-family: 'Nuvo';
+      background: var(--Background);
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      user-select: none;
+    }
+
+    .hours {
+      background-color: transparent;
+      border: none;
+      font-weight: 600 !important;
+      color: #E0E1E1;
+      letter-spacing: .2em;
+      font-size: 30px;
+    }
+
+    .minutes {
+      background-color: transparent;
+      border: none;
+      font-weight: 400 !important;
+      font-size: 6px;
+      background: var(--Background);
+      color: gray;
+      letter-spacing: .1em;
+
+    }
+
+    .big-needle {
+      height: 3px;
+      border-radius: 2px;
+    }
+
+    .clock > .center {
+      border: 3px solid #E0E1E1;
+      background-color: var(--Background);
+    }
+  
+    .hand {
+      position: absolute;
+      bottom: 50%;
+      left: 50%;
+      transform-origin: 50% 100%;
+      background: #E0E1E1;
+      clip-path: polygon(40% 0, 60% 0, 80% 100%, 20% 100%);
+    }
+
+    .hour-hand {
+      width: 10px;
+      height: 82px;
+      transform-origin: 5px 100%;
+      margin-left: -5px;
+    }
+
+    .minute-hand {
+      width: 5px;
+      height: 122px;
+      transform-origin: 2.5px 100%;
+      margin-left: -2.5px;
+    }
+
+    .second-hand {
+      width: 3px;
+      height: 122px;
+      background: #E60E00;
+      transform-origin: 1.5px 100%;
+      margin-left: -1.5px;
+    }
+
+    .clock {
+      position: relative;
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+    }
+
+    .clock > .center {
+      border: 3px solid #E0E1E1;
+      background-color: var(--Background);
+      width: 12px;
+      height: 12px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      z-index: 10;
+    }
+
+    .day {
+      font-size: 20px;
+      letter-spacing: .1em;
+    }
+
+    .inner {
+      border: none;
+    }
+  </style>
+</head>
+<body>
+<div class="bigbang">
+    <div class="gravity-spot clock-frame" style="color: grey; --o-force: 320px">
+   
+      <div class="orbit-10">
+        <div class="vector shrink-50 inner-orbit medium"></div>
+        <div class="vector shrink-50 inner-orbit medium"></div>
+        <div class="vector shrink-50 inner-orbit medium"></div>
+        <div class="vector shrink-50 inner-orbit medium"></div>
+        <div class="vector shrink-50 inner-orbit medium"></div>
+        <div class="vector shrink-50 inner-orbit medium"></div>
+        <div class="vector shrink-50 inner-orbit medium"></div>
+        <div class="vector shrink-50 inner-orbit medium"></div>
+        <div class="vector shrink-50 inner-orbit medium"></div>
+        <div class="vector shrink-50 inner-orbit medium"></div>
+        <div class="vector shrink-50 inner-orbit medium"></div>
+        <div class="vector shrink-50 inner-orbit medium"></div>
+        <div class="vector shrink-50 inner-orbit medium"></div>
+        <div class="vector shrink-50 inner-orbit medium"></div>
+        <div class="vector shrink-50 inner-orbit medium"></div>
+        <div class="vector shrink-50 inner-orbit medium"></div>
+        <div class="vector shrink-50 inner-orbit medium"></div>
+        <div class="vector shrink-50 inner-orbit medium"></div>
+        <div class="vector shrink-50 inner-orbit medium"></div>
+        <div class="vector shrink-50 inner-orbit medium"></div>
+        <div class="vector shrink-50 inner-orbit medium"></div>
+        <div class="vector shrink-50 inner-orbit medium"></div>
+        <div class="vector shrink-50 inner-orbit medium"></div>
+        <div class="vector shrink-50 inner-orbit medium"></div>
+        <div class="vector shrink-50 inner-orbit medium"></div>
+        <div class="vector shrink-50 inner-orbit medium"></div>
+        <div class="vector shrink-50 inner-orbit medium"></div>
+        <div class="vector shrink-50 inner-orbit medium"></div>
+        <div class="vector shrink-50 inner-orbit medium"></div>
+        <div class="vector shrink-50 inner-orbit medium"></div>
+        <div class="vector shrink-50 inner-orbit medium"></div>
+        <div class="vector shrink-50 inner-orbit medium"></div>
+        <div class="vector shrink-50 inner-orbit medium"></div>
+        <div class="vector shrink-50 inner-orbit medium"></div>
+        <div class="vector shrink-50 inner-orbit medium"></div>
+        <div class="vector shrink-50 inner-orbit medium"></div>
+        <div class="vector shrink-50 inner-orbit medium"></div>
+        <div class="vector shrink-50 inner-orbit medium"></div>
+        <div class="vector shrink-50 inner-orbit medium"></div>
+        <div class="vector shrink-50 inner-orbit medium"></div>
+        <div class="vector shrink-50 inner-orbit medium"></div>
+        <div class="vector shrink-50 inner-orbit medium"></div>
+        <div class="vector shrink-50 inner-orbit medium"></div>
+        <div class="vector shrink-50 inner-orbit medium"></div>
+        <div class="vector shrink-50 inner-orbit medium"></div>
+        <div class="vector shrink-50 inner-orbit medium"></div>
+        <div class="vector shrink-50 inner-orbit medium"></div>
+        <div class="vector shrink-50 inner-orbit medium"></div>
+        <div class="vector shrink-50 inner-orbit medium"></div>
+        <div class="vector shrink-50 inner-orbit medium"></div>
+        <div class="vector shrink-50 inner-orbit medium"></div>
+        <div class="vector shrink-50 inner-orbit medium"></div>
+        <div class="vector shrink-50 inner-orbit medium"></div>
+        <div class="vector shrink-50 inner-orbit medium"></div>
+        <div class="vector shrink-50 inner-orbit medium"></div>
+        <div class="vector shrink-50 inner-orbit medium"></div>
+        <div class="vector shrink-50 inner-orbit medium"></div>
+        <div class="vector shrink-50 inner-orbit medium"></div>
+        <div class="vector shrink-50 inner-orbit medium"></div>
+        <div class="vector shrink-50 inner-orbit medium"></div>
+        <div class="vector shrink-50 inner-orbit medium"></div>
+      </div>
+
+      <!-- big clock hours -->
+      <div class="orbit-4 shrink-50">
+        <div class="satellite inner"></div>
+        <div class="satellite inner day ">1</div>
+        <div class="satellite inner"></div>
+        <div class="satellite inner"></div>
+        
+      </div>
+      
+      <!-- big clock hours -->
+      <div class="orbit-8">
+        <div class="satellite hours">12</div>
+        <div class="satellite hours">1</div>
+        <div class="satellite hours">2</div>
+        <div class="satellite hours">3</div>
+        <div class="satellite hours">4</div>
+        <div class="satellite hours">5</div>
+        <div class="satellite hours">6</div>
+        <div class="satellite hours">7</div>
+        <div class="satellite hours">8</div>
+        <div class="satellite hours">9</div>
+        <div class="satellite hours">10</div>
+        <div class="satellite hours">11</div>
+      </div>
+
+      <!-- big clock hours -->
+      <div class="orbit-10 shrink-30">
+        <div class="satellite minutes">60</div>
+        <div class="satellite minutes">1</div>
+        <div class="satellite minutes">2</div>
+        <div class="satellite minutes">3</div>
+        <div class="satellite minutes">4</div>
+        <div class="satellite minutes">5</div>
+        <div class="satellite minutes">6</div>
+        <div class="satellite minutes">7</div>
+        <div class="satellite minutes">8</div>
+        <div class="satellite minutes">9</div>
+        <div class="satellite minutes">10</div>
+        <div class="satellite minutes">11</div>
+        <div class="satellite minutes">12</div>
+        <div class="satellite minutes">13</div>
+        <div class="satellite minutes">14</div>
+        <div class="satellite minutes">15</div>
+        <div class="satellite minutes">16</div>
+        <div class="satellite minutes">17</div>
+        <div class="satellite minutes">18</div>
+        <div class="satellite minutes">19</div>
+        <div class="satellite minutes">20</div>
+        <div class="satellite minutes">21</div>
+        <div class="satellite minutes">22</div>
+        <div class="satellite minutes">23</div>
+        <div class="satellite minutes">24</div>
+        <div class="satellite minutes">25</div>
+        <div class="satellite minutes">26</div>
+        <div class="satellite minutes">27</div>
+        <div class="satellite minutes">28</div>
+        <div class="satellite minutes">29</div>
+        <div class="satellite minutes">30</div>
+        <div class="satellite minutes">31</div>
+        <div class="satellite minutes">32</div>
+        <div class="satellite minutes">33</div>
+        <div class="satellite minutes">34</div>
+        <div class="satellite minutes">35</div>
+        <div class="satellite minutes">36</div>
+        <div class="satellite minutes">37</div>
+        <div class="satellite minutes">38</div>
+        <div class="satellite minutes">39</div>
+        <div class="satellite minutes">40</div>
+        <div class="satellite minutes">41</div>
+        <div class="satellite minutes">42</div>
+        <div class="satellite minutes">43</div>
+        <div class="satellite minutes">44</div>
+        <div class="satellite minutes">45</div>
+        <div class="satellite minutes">46</div>
+        <div class="satellite minutes">47</div>
+        <div class="satellite minutes">48</div>
+        <div class="satellite minutes">49</div>
+        <div class="satellite minutes">50</div>
+        <div class="satellite minutes">51</div>
+        <div class="satellite minutes">52</div>
+        <div class="satellite minutes">53</div>
+        <div class="satellite minutes">54</div>
+        <div class="satellite minutes">55</div>
+        <div class="satellite minutes">56</div>
+        <div class="satellite minutes">57</div>
+        <div class="satellite minutes">58</div>
+        <div class="satellite minutes">59</div>
+      </div>
+
+      
+      <!-- big clock -->
+      <div class="orbit-0 clock">
+        <div class="vector outer-orbit hour-hand hand xh"></div>
+        <div class="vector outer-orbit minute-hand hand xm"></div>
+        <div class="vector outer-orbit second-hand hand xs"></div>
+        <div class="satellite at-center center"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="orbit.min.js"></script>
+  <script>
+    function analogWatch() {
+      const now = new Date();
+      const hours = now.getHours();
+      const minutes = now.getMinutes();
+      const seconds = now.getSeconds();
+      const milliseconds = now.getMilliseconds();
+      const day = now.getDate();
+
+      // Set current day
+      const dayElement = document.querySelector('.day');
+      dayElement.textContent = day;
+
+      // Hour hand: (360° / 12) = 30° per hour
+      // Each minute adds (30° / 60) = 0.5° 
+      // Each second adds (0.5° / 60) = 0.008333...°
+      // Each millisecond adds (0.008333...° / 1000) = 0.000008333...°
+      const hourAngle = (hours % 12) * 30 + 
+                        minutes * 0.5 + 
+                        seconds * (0.5 / 60) + 
+                        milliseconds * (0.5 / 60 / 1000);
+
+      // Minute hand: (360° / 60) = 6° per minute
+      // Each second adds (6° / 60) = 0.1°
+      // Each millisecond adds (0.1° / 1000) = 0.0001°
+      const minuteAngle = minutes * 6 + 
+                          seconds * (6 / 60) + 
+                          milliseconds * (6 / 60 / 1000);
+
+      // Second hand: (360° / 60) = 6° per second, no fractional movement
+      const secondAngle = seconds * 6;
+
+      const hourHand = document.querySelector(".xh");
+      const minuteHand = document.querySelector(".xm");
+      const secondHand = document.querySelector(".xs");
+
+      hourHand.style.transform = `rotate(${hourAngle}deg)`;
+      minuteHand.style.transform = `rotate(${minuteAngle}deg)`;
+      secondHand.style.transform = `rotate(${secondAngle}deg)`;
+    }
+
+    // Update hour and minute hands every frame
+    const smoothUpdate = () => {
+      const now = new Date();
+      // Only update if we're not exactly on a second boundary
+      if (now.getMilliseconds() > 0) {
+        analogWatch();
+      }
+      requestAnimationFrame(smoothUpdate);
+    };
+
+    // Update second hand exactly on the second
+    setInterval(() => {
+      const now = new Date();
+      if (now.getMilliseconds() === 0) {
+        analogWatch();
+      }
+    }, 1000);
+
+    // Start both update cycles
+    analogWatch();
+    smoothUpdate();
+  </script>
+</body>
+</html>
