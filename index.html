@@ -174,74 +174,36 @@
       letter-spacing: .07em !important;
     }
   
+    @keyframes antiBurnIn {
+      0% {
+        transform: translate(0px, 0px);
+      }
+      25% {
+        transform: translate(12px, 12px);
+      }
+      50% {
+        transform: translate(0px, 12px);
+      }
+      75% {
+        transform: translate(-12px, 0px);
+      }
+      100% {
+        transform: translate(0px, 0px);
+      }
+    }
+
+    .burn-in-protection {
+      animation: antiBurnIn 600s infinite ease-in-out;
+    }
+  
   </style>
 </head>
 <body>
 <div class="bigbang">
     <div class="gravity-spot clock-frame" style="color: grey; --o-force: 320px">
    
+      <!-- Remove all tick marks -->
       <div class="orbit-10">
-        <div class="vector shrink-50 inner-orbit medium"></div>
-        <div class="vector shrink-50 inner-orbit medium"></div>
-        <div class="vector shrink-50 inner-orbit medium"></div>
-        <div class="vector shrink-50 inner-orbit medium"></div>
-        <div class="vector shrink-50 inner-orbit medium"></div>
-        <div class="vector shrink-50 inner-orbit medium"></div>
-        <div class="vector shrink-50 inner-orbit medium"></div>
-        <div class="vector shrink-50 inner-orbit medium"></div>
-        <div class="vector shrink-50 inner-orbit medium"></div>
-        <div class="vector shrink-50 inner-orbit medium"></div>
-        <div class="vector shrink-50 inner-orbit medium"></div>
-        <div class="vector shrink-50 inner-orbit medium"></div>
-        <div class="vector shrink-50 inner-orbit medium"></div>
-        <div class="vector shrink-50 inner-orbit medium"></div>
-        <div class="vector shrink-50 inner-orbit medium"></div>
-        <div class="vector shrink-50 inner-orbit medium"></div>
-        <div class="vector shrink-50 inner-orbit medium"></div>
-        <div class="vector shrink-50 inner-orbit medium"></div>
-        <div class="vector shrink-50 inner-orbit medium"></div>
-        <div class="vector shrink-50 inner-orbit medium"></div>
-        <div class="vector shrink-50 inner-orbit medium"></div>
-        <div class="vector shrink-50 inner-orbit medium"></div>
-        <div class="vector shrink-50 inner-orbit medium"></div>
-        <div class="vector shrink-50 inner-orbit medium"></div>
-        <div class="vector shrink-50 inner-orbit medium"></div>
-        <div class="vector shrink-50 inner-orbit medium"></div>
-        <div class="vector shrink-50 inner-orbit medium"></div>
-        <div class="vector shrink-50 inner-orbit medium"></div>
-        <div class="vector shrink-50 inner-orbit medium"></div>
-        <div class="vector shrink-50 inner-orbit medium"></div>
-        <div class="vector shrink-50 inner-orbit medium"></div>
-        <div class="vector shrink-50 inner-orbit medium"></div>
-        <div class="vector shrink-50 inner-orbit medium"></div>
-        <div class="vector shrink-50 inner-orbit medium"></div>
-        <div class="vector shrink-50 inner-orbit medium"></div>
-        <div class="vector shrink-50 inner-orbit medium"></div>
-        <div class="vector shrink-50 inner-orbit medium"></div>
-        <div class="vector shrink-50 inner-orbit medium"></div>
-        <div class="vector shrink-50 inner-orbit medium"></div>
-        <div class="vector shrink-50 inner-orbit medium"></div>
-        <div class="vector shrink-50 inner-orbit medium"></div>
-        <div class="vector shrink-50 inner-orbit medium"></div>
-        <div class="vector shrink-50 inner-orbit medium"></div>
-        <div class="vector shrink-50 inner-orbit medium"></div>
-        <div class="vector shrink-50 inner-orbit medium"></div>
-        <div class="vector shrink-50 inner-orbit medium"></div>
-        <div class="vector shrink-50 inner-orbit medium"></div>
-        <div class="vector shrink-50 inner-orbit medium"></div>
-        <div class="vector shrink-50 inner-orbit medium"></div>
-        <div class="vector shrink-50 inner-orbit medium"></div>
-        <div class="vector shrink-50 inner-orbit medium"></div>
-        <div class="vector shrink-50 inner-orbit medium"></div>
-        <div class="vector shrink-50 inner-orbit medium"></div>
-        <div class="vector shrink-50 inner-orbit medium"></div>
-        <div class="vector shrink-50 inner-orbit medium"></div>
-        <div class="vector shrink-50 inner-orbit medium"></div>
-        <div class="vector shrink-50 inner-orbit medium"></div>
-        <div class="vector shrink-50 inner-orbit medium"></div>
-        <div class="vector shrink-50 inner-orbit medium"></div>
-        <div class="vector shrink-50 inner-orbit medium"></div>
-        <div class="vector shrink-50 inner-orbit medium"></div>
       </div>
 
       <!-- big clock hours -->
@@ -518,6 +480,7 @@
     document.addEventListener('dblclick', toggleFullscreen);
 
     let isHighContrast = false;
+    let isBurnInProtection = false;
 
     document.addEventListener('keydown', (event) => {
       if (event.key === 'c' || event.key === 'C') {
@@ -526,11 +489,21 @@
         if (secondHand) {
           secondHand.style.background = isHighContrast ? '#E0E1E1' : '#E60E00';
         }
+      } else if (event.key === 'b' || event.key === 'B') {
+        isBurnInProtection = !isBurnInProtection;
+        const clockFrame = document.querySelector('.clock-frame');
+        if (clockFrame) {
+          if (isBurnInProtection) {
+            clockFrame.classList.add('burn-in-protection');
+          } else {
+            clockFrame.classList.remove('burn-in-protection');
+          }
+        }
       }
     });
   </script>
 
-  <script>
+  <!-- <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', async () => {
         try {
@@ -541,6 +514,6 @@
         }
       });
     }
-  </script>
+  </script> -->
 </body>
 </html>
