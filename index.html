@@ -54,6 +54,12 @@
       min-height: 100vh;
       margin: 0;
       user-select: none;
+      transition: transform 0.3s ease;
+    }
+
+    /* Add transform when satellites are visible */
+    .satellite-visible body {
+      transform: translateY(-12px);
     }
 
     .hours {
@@ -777,6 +783,11 @@
     // Apply preferences on page load
     applyPreferences();
 
+    // Set initial satellite-visible class if needed
+    if (isSatelliteVisible) {
+      document.documentElement.classList.add('satellite-visible');
+    }
+
     function updateVisibleDays() {
       const now = new Date();
       const daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
@@ -1039,6 +1050,8 @@
         satelliteClocks.forEach(clock => {
           clock.classList.toggle('visible');
         });
+        // Add or remove satellite-visible class on HTML element
+        document.documentElement.classList.toggle('satellite-visible', isSatelliteVisible);
       }
     });
   </script>
