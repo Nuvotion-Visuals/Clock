@@ -326,7 +326,7 @@
     }
 
     .hourly-temp {
-      font-size: 6px;
+      font-size: 8px;  /* Changed from 6px to match month-names */
       color: gray;
       letter-spacing: .1em;
     }
@@ -378,7 +378,7 @@
     .year-clock__hand {
       composes: satellite-hand;
       width: 6px;
-      height: 40px;
+      height: 36px;
     }
 
     .temp-hand {
@@ -445,7 +445,7 @@
       <!-- Add Year/Month Clock -->
       <div class="orbit-15 satellite-clock">
         <div class="satellite angle-225">
-          <div class="gravity-spot" style="--o-force: 310px;">
+          <div class="gravity-spot" style="--o-force: 300px;">
             <div class="orbit">
               <div class="vector year-clock__hand"></div>
               <div class="satellite clock-label angle-0"><div class="capsule month-names">Month</div></div>
