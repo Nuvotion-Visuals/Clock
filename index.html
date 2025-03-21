@@ -276,7 +276,7 @@
     }
 
     /* Add center dots for satellite hands */
-    .month-clock__hand::after, .year-clock__hand::after, .temp-hand::after, .weather-hand::after {
+    .satellite-hand::after {
       content: '';
       position: absolute;
       bottom: -2px;
@@ -355,6 +355,43 @@
     .satellite-clock.visible {
       opacity: 1;
     }
+
+    /* Base class for satellite hands */
+    .satellite-hand {
+      position: absolute;
+      bottom: 50%;
+      left: 50%;
+      background: #E0E1E1;
+      transform-origin: 3px 100%;
+      margin-left: -3px;
+      clip-path: polygon(40% 0, 60% 0, 80% 100%, 20% 100%);
+      z-index: 10;
+    }
+
+    /* Individual hand lengths */
+    .month-clock__hand {
+      composes: satellite-hand;
+      width: 6px;
+      height: 46px;
+    }
+
+    .year-clock__hand {
+      composes: satellite-hand;
+      width: 6px;
+      height: 40px;
+    }
+
+    .temp-hand {
+      composes: satellite-hand;
+      width: 6px;
+      height: 30px;
+    }
+
+    .weather-hand {
+      composes: satellite-hand;
+      width: 6px;
+      height: 28px;
+    }
   </style>
 </head>
 <body>
@@ -408,7 +445,7 @@
       <!-- Add Year/Month Clock -->
       <div class="orbit-15 satellite-clock">
         <div class="satellite angle-225">
-          <div class="gravity-spot" style="--o-force: 300px;">
+          <div class="gravity-spot" style="--o-force: 310px;">
             <div class="orbit">
               <div class="vector year-clock__hand"></div>
               <div class="satellite clock-label angle-0"><div class="capsule month-names">Month</div></div>
@@ -703,6 +740,43 @@
     analogWatch();
     smoothUpdate();
 
+    // Load saved preferences from localStorage
+    let isHighContrast = localStorage.getItem('isHighContrast') === 'true';
+    let isBurnInProtection = localStorage.getItem('isBurnInProtection') === 'true';
+    let isSatelliteVisible = localStorage.getItem('isSatelliteVisible') === 'true';
+
+    // Apply saved preferences on load
+    function applyPreferences() {
+      // Apply high contrast mode
+      const secondHand = document.querySelector('.second-hand');
+      if (secondHand) {
+        secondHand.style.background = isHighContrast ? '#E0E1E1' : '#E60E00';
+      }
+
+      // Apply burn-in protection
+      const clockFrame = document.querySelector('.clock-frame');
+      if (clockFrame) {
+        if (isBurnInProtection) {
+          clockFrame.classList.add('burn-in-protection');
+        } else {
+          clockFrame.classList.remove('burn-in-protection');
+        }
+      }
+
+      // Apply satellite visibility
+      const satelliteClocks = document.querySelectorAll('.satellite-clock');
+      satelliteClocks.forEach(clock => {
+        if (isSatelliteVisible) {
+          clock.classList.add('visible');
+        } else {
+          clock.classList.remove('visible');
+        }
+      });
+    }
+
+    // Apply preferences on page load
+    applyPreferences();
+
     function updateVisibleDays() {
       const now = new Date();
       const daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
@@ -779,20 +853,37 @@
 
         // Update hourly temperatures and weather icons
         const now = new Date();
-        const currentHour = now.getHours() % 12;
+        const currentHour = now.getHours();
+        const currentHourPosition = currentHour % 12; // 0-11 (0 = 12 o'clock)
+        
         const hourlyTemps = document.querySelectorAll('.hourly-temp');
         const hourlyWeather = document.querySelectorAll('.hourly-weather i');
         
-        hourlyTemps.forEach((temp, index) => {
-          // Calculate hour based on current hour in 12-hour format
-          const hour = (currentHour + index) % 12;
-          const temperature = Math.round(data.hourly.temperature_2m[hour]);
-          const weatherCode = data.hourly.weather_code[hour];
-          temp.textContent = `${temperature}`;
+        // Simple approach: Just show 12 consecutive hours of data
+        for (let i = 0; i < 12; i++) {
+          // Calculate which position on the clock face to use (0-11)
+          const displayPosition = (currentHourPosition + i) % 12;
           
-          // Update weather icon
-          hourlyWeather[index].className = `fa-solid ${weatherIcons[weatherCode] || 'fa-cloud'}`;
-        });
+          // Calculate the correct data index - this needs to account for crossing to the next day
+          // The API data is structured as consecutive hours: 
+          // day1[0-23], day2[0-23], day3[0-23], etc.
+          // So to get the correct index, we just add i to the current hour
+          const dataIndex = currentHour + i;
+          
+          // Get temperature and weather (if data exists)
+          if (dataIndex < data.hourly.temperature_2m.length) {
+            const temperature = data.hourly.temperature_2m[dataIndex];
+            const weatherCode = data.hourly.weather_code[dataIndex];
+            
+            // Update the display
+            hourlyTemps[displayPosition].textContent = `${Math.round(temperature)}`;
+            hourlyWeather[displayPosition].className = `fa-solid ${weatherIcons[weatherCode] || 'fa-cloud'}`;
+          } else {
+            // Handle case where data doesn't exist
+            hourlyTemps[displayPosition].textContent = `--`;
+            hourlyWeather[displayPosition].className = `fa-solid fa-question`;
+          }
+        }
 
         // Update weather hand
         const weatherHand = document.querySelector(".weather-hand");
@@ -801,10 +892,85 @@
           const weatherAngle = totalHours * 30; // 360/12 = 30 degrees per hour
           weatherHand.style.transform = `rotate(${weatherAngle}deg)`;
         }
+        
+        // Run automatic unit test to validate the hourly temperature display
+        runWeatherDisplayTest(data);
       } 
       catch (error) {
         console.error('Error fetching weather:', error);
       }
+    }
+    
+    /**
+     * Unit test to validate the hourly temperature display against the API data
+     * @param {Object} data - The weather API data
+     */
+    function runWeatherDisplayTest(data) {
+      console.log('🧪 Running Weather Display Unit Test');
+      
+      const now = new Date();
+      const currentHour = now.getHours();
+      const currentHourPosition = currentHour % 12;
+      
+      const hourlyTemps = document.querySelectorAll('.hourly-temp');
+      let testPassed = true;
+      let errors = [];
+      
+      // Collect all expected vs actual values for logging
+      let comparisons = [];
+      
+      // Test each of the 12 positions on the clock
+      for (let i = 0; i < 12; i++) {
+        // Calculate which position on the clock face to check
+        const displayPosition = (currentHourPosition + i) % 12;
+        
+        // Calculate which hour's data should be used
+        const dataHour = (currentHour + i) % 24;
+        
+        // Get the expected temperature from the API data
+        const expectedTemp = Math.round(data.hourly.temperature_2m[dataHour]);
+        
+        // Get the actual displayed temperature
+        const actualTemp = parseInt(hourlyTemps[displayPosition].textContent);
+        
+        // Record the comparison
+        const clockHour = displayPosition === 0 ? 12 : displayPosition;
+        const comparison = {
+          clockPosition: `${clockHour} o'clock`,
+          dataHour: `${dataHour}:00`,
+          expected: expectedTemp,
+          actual: actualTemp,
+          passed: expectedTemp === actualTemp
+        };
+        
+        comparisons.push(comparison);
+        
+        // Check if they match
+        if (expectedTemp !== actualTemp) {
+          testPassed = false;
+          errors.push(`Mismatch at ${clockHour} o'clock position: Expected ${expectedTemp}°F, got ${actualTemp}°F`);
+        }
+      }
+      
+      // Log the test results
+      if (testPassed) {
+        console.log('%c✅ PASS: All hourly temperatures match the API data', 'color: green; font-weight: bold');
+      } else {
+        console.log('%c❌ FAIL: Mismatches found in hourly temperatures', 'color: red; font-weight: bold');
+        console.log('Errors:', errors);
+      }
+      
+      // Display detailed comparison table
+      console.log('Detailed comparison:');
+      console.table(comparisons);
+      
+      // Log the raw API data for reference
+      console.log('Current hour:', currentHour);
+      console.log('Current hour position on clock:', currentHourPosition === 0 ? 12 : currentHourPosition);
+      console.log('Raw API temperatures:', data.hourly.temperature_2m.slice(0, 24));
+      console.log('Raw API times:', data.hourly.time.slice(0, 24));
+      
+      return testPassed;
     }
 
     function updateWeather() {
@@ -847,18 +1013,17 @@
     // Add double-click handler to the document
     document.addEventListener('dblclick', toggleFullscreen);
 
-    let isHighContrast = false;
-    let isBurnInProtection = false;
-
     document.addEventListener('keydown', (event) => {
       if (event.key === 'c' || event.key === 'C') {
         isHighContrast = !isHighContrast;
+        localStorage.setItem('isHighContrast', isHighContrast);
         const secondHand = document.querySelector('.second-hand');
         if (secondHand) {
           secondHand.style.background = isHighContrast ? '#E0E1E1' : '#E60E00';
         }
       } else if (event.key === 'b' || event.key === 'B') {
         isBurnInProtection = !isBurnInProtection;
+        localStorage.setItem('isBurnInProtection', isBurnInProtection);
         const clockFrame = document.querySelector('.clock-frame');
         if (clockFrame) {
           if (isBurnInProtection) {
@@ -868,6 +1033,8 @@
           }
         }
       } else if (event.key === 'v' || event.key === 'V') {
+        isSatelliteVisible = !isSatelliteVisible;
+        localStorage.setItem('isSatelliteVisible', isSatelliteVisible);
         const satelliteClocks = document.querySelectorAll('.satellite-clock');
         satelliteClocks.forEach(clock => {
           clock.classList.toggle('visible');
@@ -876,7 +1043,7 @@
     });
   </script>
 
-  <!-- <script>
+  <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', async () => {
         try {
@@ -887,6 +1054,6 @@
         }
       });
     }
-  </script> -->
+  </script>
 </body>
 </html>
