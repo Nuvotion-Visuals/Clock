@@ -219,16 +219,30 @@
     }
 
     /* Month and Year clock styles */
-    .month-clock__hand, .year-clock__hand {
-      height: 20px;
-      width: 1px;
+    .month-clock__hand, .year-clock__hand, .temp-hand, .weather-hand {
+      width: 6px;
+      height: 45px;
       background: #E0E1E1;
-      transform-origin: center bottom;
+      transform-origin: 5px 100%;
+      margin-left: -5px;
+      clip-path: polygon(40% 0, 60% 0, 80% 100%, 20% 100%);
       position: absolute;
       bottom: 50%;
       left: 50%;
-      margin-left: -0.5px;
       z-index: 1;
+    }
+
+    /* Add center dots for satellite hands */
+    .month-clock__hand::after, .year-clock__hand::after, .temp-hand::after, .weather-hand::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 4px;
+      height: 4px;
+      background: #E0E1E1;
+      border-radius: 50%;
     }
 
     .month-days {
@@ -252,19 +266,6 @@
       letter-spacing: .1em;
     }
 
-    /* Add temperature styles */
-    .temp-hand {
-      height: 20px;
-      width: 1px;
-      background: #E0E1E1;
-      transform-origin: center bottom;
-      position: absolute;
-      bottom: 50%;
-      left: 50%;
-      margin-left: -0.5px;
-      z-index: 1;
-    }
-
     .hourly-temp {
       font-size: 6px;
       color: gray;
@@ -274,6 +275,16 @@
     /* Remove old clock-24h styles */
     .clock-24h__hand {
       display: none;
+    }
+
+    /* Add hourly weather icon styles */
+    .hourly-weather {
+      font-size: 6px;
+      color: gray;
+    }
+
+    .hourly-weather i {
+      font-size: 8px;
     }
   </style>
 </head>
@@ -381,6 +392,43 @@
               <div class="satellite angle-315"><div class="capsule hourly-temp"></div></div>
               <div class="satellite angle-330"><div class="capsule hourly-temp"></div></div>
               <div class="satellite angle-345"><div class="capsule hourly-temp"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Add hourly weather clock -->
+      <div class="orbit-15">
+        <div class="satellite angle-315">
+          <div class="gravity-spot" style="--o-force: 340px;">
+            <div class="orbit">
+              <div class="vector weather-hand"></div>
+            </div>
+            <div class="orbit-4">
+              <div class="satellite angle-0"><div class="capsule hourly-weather"><i></i></div></div>
+              <div class="satellite angle-15"><div class="capsule hourly-weather"><i></i></div></div>
+              <div class="satellite angle-30"><div class="capsule hourly-weather"><i></i></div></div>
+              <div class="satellite angle-45"><div class="capsule hourly-weather"><i></i></div></div>
+              <div class="satellite angle-60"><div class="capsule hourly-weather"><i></i></div></div>
+              <div class="satellite angle-75"><div class="capsule hourly-weather"><i></i></div></div>
+              <div class="satellite angle-90"><div class="capsule hourly-weather"><i></i></div></div>
+              <div class="satellite angle-105"><div class="capsule hourly-weather"><i></i></div></div>
+              <div class="satellite angle-120"><div class="capsule hourly-weather"><i></i></div></div>
+              <div class="satellite angle-135"><div class="capsule hourly-weather"><i></i></div></div>
+              <div class="satellite angle-150"><div class="capsule hourly-weather"><i></i></div></div>
+              <div class="satellite angle-165"><div class="capsule hourly-weather"><i></i></div></div>
+              <div class="satellite angle-180"><div class="capsule hourly-weather"><i></i></div></div>
+              <div class="satellite angle-195"><div class="capsule hourly-weather"><i></i></div></div>
+              <div class="satellite angle-210"><div class="capsule hourly-weather"><i></i></div></div>
+              <div class="satellite angle-225"><div class="capsule hourly-weather"><i></i></div></div>
+              <div class="satellite angle-240"><div class="capsule hourly-weather"><i></i></div></div>
+              <div class="satellite angle-255"><div class="capsule hourly-weather"><i></i></div></div>
+              <div class="satellite angle-270"><div class="capsule hourly-weather"><i></i></div></div>
+              <div class="satellite angle-285"><div class="capsule hourly-weather"><i></i></div></div>
+              <div class="satellite angle-300"><div class="capsule hourly-weather"><i></i></div></div>
+              <div class="satellite angle-315"><div class="capsule hourly-weather"><i></i></div></div>
+              <div class="satellite angle-330"><div class="capsule hourly-weather"><i></i></div></div>
+              <div class="satellite angle-345"><div class="capsule hourly-weather"><i></i></div></div>
             </div>
           </div>
         </div>
@@ -537,13 +585,17 @@
         yearHand.style.transform = `rotate(${monthAngle}deg)`;
       }
 
-      // Update temperature hand
+      // Update temperature and weather hands
       const totalHours = hours + (minutes / 60) + (seconds / 3600) + (milliseconds / 3600000);
-      const tempAngle = totalHours * 15; // 360/24 = 15 degrees per hour
+      const hourAngle = totalHours * 15; // 360/24 = 15 degrees per hour
 
       const tempHand = document.querySelector(".temp-hand");
+      const weatherHand = document.querySelector(".weather-hand");
       if (tempHand) {
-        tempHand.style.transform = `rotate(${tempAngle}deg)`;
+        tempHand.style.transform = `rotate(${hourAngle}deg)`;
+      }
+      if (weatherHand) {
+        weatherHand.style.transform = `rotate(${hourAngle}deg)`;
       }
 
       // Set current day
@@ -558,7 +610,7 @@
       const weekdayElement = document.querySelector('.weekday');
       weekdayElement.textContent = weekday;
 
-      const hourAngle = (hours % 12) * 30 + 
+      const hourAngle12 = (hours % 12) * 30 + 
                         minutes * 0.5 + 
                         seconds * (0.5 / 60) + 
                         milliseconds * (0.5 / 60 / 1000);
@@ -575,7 +627,7 @@
       const minuteHand = document.querySelector(".xm");
       const secondHand = document.querySelector(".xs");
 
-      hourHand.style.transform = `rotate(${hourAngle}deg)`;
+      hourHand.style.transform = `rotate(${hourAngle12}deg)`;
       minuteHand.style.transform = `rotate(${minuteAngle}deg)`;
       secondHand.style.transform = `rotate(${secondAngle}deg)`;
     }
@@ -634,7 +686,7 @@
         const lat = latitude || 41.8781;
         const lon = longitude || -87.6298;
 
-        const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code&daily=temperature_2m_max,temperature_2m_min&hourly=temperature_2m&timezone=auto&temperature_unit=fahrenheit`);
+        const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code&daily=temperature_2m_max,temperature_2m_min&hourly=temperature_2m,weather_code&timezone=auto&temperature_unit=fahrenheit`);
         const data = await response.json();
 
         const weatherIcons = {
@@ -676,18 +728,31 @@
         highTemp.textContent = `H:${Math.round(data.daily.temperature_2m_max[0])}°`;
         lowTemp.textContent = `L:${Math.round(data.daily.temperature_2m_min[0])}°`;
 
-        // Update hourly temperatures
+        // Update hourly temperatures and weather icons
         const now = new Date();
         const currentHour = now.getHours();
         const hourlyTemps = document.querySelectorAll('.hourly-temp');
+        const hourlyWeather = document.querySelectorAll('.hourly-weather i');
         
         hourlyTemps.forEach((temp, index) => {
           // Start from current hour and go clockwise for next 24 hours
           // This aligns with the API data which gives forecast for next 24 hours
           const hour = index;  // API data is already ordered starting from current hour
           const temperature = Math.round(data.hourly.temperature_2m[hour]);
+          const weatherCode = data.hourly.weather_code[hour];
           temp.textContent = `${temperature}°`;
+          
+          // Update weather icon
+          hourlyWeather[index].className = `fa-solid ${weatherIcons[weatherCode] || 'fa-cloud'}`;
         });
+
+        // Update weather hand
+        const weatherHand = document.querySelector(".weather-hand");
+        if (weatherHand) {
+          const totalHours = now.getHours() + (now.getMinutes() / 60) + (now.getSeconds() / 3600) + (now.getMilliseconds() / 3600000);
+          const weatherAngle = totalHours * 15; // 360/24 = 15 degrees per hour
+          weatherHand.style.transform = `rotate(${weatherAngle}deg)`;
+        }
       } 
       catch (error) {
         console.error('Error fetching weather:', error);
