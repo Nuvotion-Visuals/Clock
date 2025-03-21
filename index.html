@@ -222,9 +222,49 @@
     }
 
     /* Month and Year clock styles */
-    .month-clock__hand, .year-clock__hand, .temp-hand, .weather-hand {
+    .month-clock__hand {
       width: 6px;
-      height: 45px;
+      height: 46px;
+      background: #E0E1E1;
+      transform-origin: 3px 100%;
+      margin-left: -3px;
+      clip-path: polygon(40% 0, 60% 0, 80% 100%, 20% 100%);
+      position: absolute;
+      bottom: 50%;
+      left: 50%;
+      z-index: 10;
+    }
+
+    .year-clock__hand {
+      width: 6px;
+      height: 35px;
+      background: #E0E1E1;
+      transform-origin: 3px 100%;
+      margin-left: -3px;
+      clip-path: polygon(40% 0, 60% 0, 80% 100%, 20% 100%);
+      position: absolute;
+      bottom: 50%;
+      left: 50%;
+      z-index: 10;
+    }
+
+
+    .temp-hand {
+      width: 6px;
+      height: 30px;
+      background: #E0E1E1;
+      transform-origin: 3px 100%;
+      margin-left: -3px;
+      clip-path: polygon(40% 0, 60% 0, 80% 100%, 20% 100%);
+      position: absolute;
+      bottom: 50%;
+      left: 50%;
+      z-index: 10;
+    }
+
+    .weather-hand {
+      width: 6px;
+      height: 28px;
       background: #E0E1E1;
       transform-origin: 3px 100%;
       margin-left: -3px;
@@ -391,77 +431,53 @@
         </div>
       </div>
 
-      <!-- Add 24-hour clock in its own orbit -->
-      <div class="orbit-15 satellite-clock">
+      <!-- Hourly Temp Clock -->
+      <div class="orbit-14 satellite-clock">
         <div class="satellite angle-45">
-          <div class="gravity-spot" style="--o-force: 340px;">
+          <div class="gravity-spot" style="--o-force: 220px;">
             <div class="orbit">
               <div class="vector temp-hand"></div>
               <div class="satellite clock-label angle-0"><div class="capsule month-names">Temp</div></div>
             </div>
             <div class="orbit-4">
               <div class="satellite angle-0"><div class="capsule hourly-temp"></div></div>
-              <div class="satellite angle-15"><div class="capsule hourly-temp"></div></div>
               <div class="satellite angle-30"><div class="capsule hourly-temp"></div></div>
-              <div class="satellite angle-45"><div class="capsule hourly-temp"></div></div>
               <div class="satellite angle-60"><div class="capsule hourly-temp"></div></div>
-              <div class="satellite angle-75"><div class="capsule hourly-temp"></div></div>
               <div class="satellite angle-90"><div class="capsule hourly-temp"></div></div>
-              <div class="satellite angle-105"><div class="capsule hourly-temp"></div></div>
               <div class="satellite angle-120"><div class="capsule hourly-temp"></div></div>
-              <div class="satellite angle-135"><div class="capsule hourly-temp"></div></div>
               <div class="satellite angle-150"><div class="capsule hourly-temp"></div></div>
-              <div class="satellite angle-165"><div class="capsule hourly-temp"></div></div>
               <div class="satellite angle-180"><div class="capsule hourly-temp"></div></div>
-              <div class="satellite angle-195"><div class="capsule hourly-temp"></div></div>
               <div class="satellite angle-210"><div class="capsule hourly-temp"></div></div>
-              <div class="satellite angle-225"><div class="capsule hourly-temp"></div></div>
               <div class="satellite angle-240"><div class="capsule hourly-temp"></div></div>
-              <div class="satellite angle-255"><div class="capsule hourly-temp"></div></div>
               <div class="satellite angle-270"><div class="capsule hourly-temp"></div></div>
-              <div class="satellite angle-285"><div class="capsule hourly-temp"></div></div>
               <div class="satellite angle-300"><div class="capsule hourly-temp"></div></div>
-              <div class="satellite angle-315"><div class="capsule hourly-temp"></div></div>
               <div class="satellite angle-330"><div class="capsule hourly-temp"></div></div>
-              <div class="satellite angle-345"><div class="capsule hourly-temp"></div></div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Add hourly weather clock -->
-      <div class="orbit-15 satellite-clock">
+      <!-- Hourly Weather Clock -->
+      <div class="orbit-14 satellite-clock">
         <div class="satellite angle-315">
-          <div class="gravity-spot" style="--o-force: 340px;">
+          <div class="gravity-spot" style="--o-force: 220px;">
             <div class="orbit">
               <div class="vector weather-hand"></div>
               <div class="satellite clock-label angle-0"><div class="capsule month-names">Weather</div></div>
             </div>
             <div class="orbit-4">
               <div class="satellite angle-0"><div class="capsule hourly-weather"><i></i></div></div>
-              <div class="satellite angle-15"><div class="capsule hourly-weather"><i></i></div></div>
               <div class="satellite angle-30"><div class="capsule hourly-weather"><i></i></div></div>
-              <div class="satellite angle-45"><div class="capsule hourly-weather"><i></i></div></div>
               <div class="satellite angle-60"><div class="capsule hourly-weather"><i></i></div></div>
-              <div class="satellite angle-75"><div class="capsule hourly-weather"><i></i></div></div>
               <div class="satellite angle-90"><div class="capsule hourly-weather"><i></i></div></div>
-              <div class="satellite angle-105"><div class="capsule hourly-weather"><i></i></div></div>
               <div class="satellite angle-120"><div class="capsule hourly-weather"><i></i></div></div>
-              <div class="satellite angle-135"><div class="capsule hourly-weather"><i></i></div></div>
               <div class="satellite angle-150"><div class="capsule hourly-weather"><i></i></div></div>
-              <div class="satellite angle-165"><div class="capsule hourly-weather"><i></i></div></div>
               <div class="satellite angle-180"><div class="capsule hourly-weather"><i></i></div></div>
-              <div class="satellite angle-195"><div class="capsule hourly-weather"><i></i></div></div>
               <div class="satellite angle-210"><div class="capsule hourly-weather"><i></i></div></div>
-              <div class="satellite angle-225"><div class="capsule hourly-weather"><i></i></div></div>
               <div class="satellite angle-240"><div class="capsule hourly-weather"><i></i></div></div>
-              <div class="satellite angle-255"><div class="capsule hourly-weather"><i></i></div></div>
               <div class="satellite angle-270"><div class="capsule hourly-weather"><i></i></div></div>
-              <div class="satellite angle-285"><div class="capsule hourly-weather"><i></i></div></div>
               <div class="satellite angle-300"><div class="capsule hourly-weather"><i></i></div></div>
-              <div class="satellite angle-315"><div class="capsule hourly-weather"><i></i></div></div>
               <div class="satellite angle-330"><div class="capsule hourly-weather"><i></i></div></div>
-              <div class="satellite angle-345"><div class="capsule hourly-weather"><i></i></div></div>
             </div>
           </div>
         </div>
@@ -619,8 +635,8 @@
       }
 
       // Update temperature and weather hands
-      const totalHours = hours + (minutes / 60) + (seconds / 3600) + (milliseconds / 3600000);
-      const hourAngle = totalHours * 15; // 360/24 = 15 degrees per hour
+      const totalHours = hours % 12 + (minutes / 60) + (seconds / 3600) + (milliseconds / 3600000);
+      const hourAngle = totalHours * 30; // 360/12 = 30 degrees per hour
 
       const tempHand = document.querySelector(".temp-hand");
       const weatherHand = document.querySelector(".weather-hand");
@@ -763,14 +779,13 @@
 
         // Update hourly temperatures and weather icons
         const now = new Date();
-        const currentHour = now.getHours();
+        const currentHour = now.getHours() % 12;
         const hourlyTemps = document.querySelectorAll('.hourly-temp');
         const hourlyWeather = document.querySelectorAll('.hourly-weather i');
         
         hourlyTemps.forEach((temp, index) => {
-          // Start from current hour and go clockwise for next 24 hours
-          // This aligns with the API data which gives forecast for next 24 hours
-          const hour = index;  // API data is already ordered starting from current hour
+          // Calculate hour based on current hour in 12-hour format
+          const hour = (currentHour + index) % 12;
           const temperature = Math.round(data.hourly.temperature_2m[hour]);
           const weatherCode = data.hourly.weather_code[hour];
           temp.textContent = `${temperature}`;
@@ -782,8 +797,8 @@
         // Update weather hand
         const weatherHand = document.querySelector(".weather-hand");
         if (weatherHand) {
-          const totalHours = now.getHours() + (now.getMinutes() / 60) + (now.getSeconds() / 3600) + (now.getMilliseconds() / 3600000);
-          const weatherAngle = totalHours * 15; // 360/24 = 15 degrees per hour
+          const totalHours = (now.getHours() % 12) + (now.getMinutes() / 60) + (now.getSeconds() / 3600) + (now.getMilliseconds() / 3600000);
+          const weatherAngle = totalHours * 30; // 360/12 = 30 degrees per hour
           weatherHand.style.transform = `rotate(${weatherAngle}deg)`;
         }
       } 
