@@ -93,6 +93,7 @@
       transform-origin: 50% 100%;
       background: #E0E1E1;
       clip-path: polygon(40% 0, 60% 0, 80% 100%, 20% 100%);
+      z-index: 10;
     }
 
     .hour-hand {
@@ -135,7 +136,7 @@
       left: 50%;
       transform: translate(-50%, -50%);
       border-radius: 50%;
-      z-index: 10;
+      z-index: 11;
     }
 
     .day, .month, .weekday {
@@ -203,21 +204,334 @@
       border-radius: 50%;
       opacity: 0;
       transition: opacity 0.3s ease;
+      z-index: 11;
+      border: 1px solid #E0E1E1 !important;
     }
 
     .burn-in-protection .burn-in-indicator {
       opacity: 0.5;
     }
-  
+
+    /* 24-hour clock styles */
+    .clock-24h__hand {
+      display: none;
+    }
+
+    .satellite {
+      border: none;
+    }
+
+    /* Month and Year clock styles */
+    .month-clock__hand {
+      width: 6px;
+      height: 46px;
+      background: #E0E1E1;
+      transform-origin: 3px 100%;
+      margin-left: -3px;
+      clip-path: polygon(40% 0, 60% 0, 80% 100%, 20% 100%);
+      position: absolute;
+      bottom: 50%;
+      left: 50%;
+      z-index: 10;
+    }
+
+    .year-clock__hand {
+      width: 6px;
+      height: 35px;
+      background: #E0E1E1;
+      transform-origin: 3px 100%;
+      margin-left: -3px;
+      clip-path: polygon(40% 0, 60% 0, 80% 100%, 20% 100%);
+      position: absolute;
+      bottom: 50%;
+      left: 50%;
+      z-index: 10;
+    }
+
+
+    .temp-hand {
+      width: 6px;
+      height: 30px;
+      background: #E0E1E1;
+      transform-origin: 3px 100%;
+      margin-left: -3px;
+      clip-path: polygon(40% 0, 60% 0, 80% 100%, 20% 100%);
+      position: absolute;
+      bottom: 50%;
+      left: 50%;
+      z-index: 10;
+    }
+
+    .weather-hand {
+      width: 6px;
+      height: 28px;
+      background: #E0E1E1;
+      transform-origin: 3px 100%;
+      margin-left: -3px;
+      clip-path: polygon(40% 0, 60% 0, 80% 100%, 20% 100%);
+      position: absolute;
+      bottom: 50%;
+      left: 50%;
+      z-index: 10;
+    }
+
+    /* Add center dots for satellite hands */
+    .satellite-hand::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 4px;
+      height: 4px;
+      background: #E0E1E1;
+      border-radius: 50%;
+      z-index: 11;
+    }
+
+    /* Add center circles for satellite clocks */
+    .gravity-spot .orbit::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 8px;
+      height: 8px;
+      background: var(--Background);
+      border: 2px solid #E0E1E1;
+      border-radius: 50%;
+      z-index: 11;
+    }
+
+    .month-days {
+      font-size: 6px;
+      color: gray;
+      letter-spacing: .1em;
+    }
+
+    .month-days-satellite {
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .month-days-satellite.visible {
+      opacity: 1;
+    }
+
+    .month-names {
+      font-size: 8px;
+      color: gray;
+      letter-spacing: .1em;
+    }
+
+    .hourly-temp {
+      font-size: 6px;
+      color: gray;
+      letter-spacing: .1em;
+    }
+
+    /* Remove old clock-24h styles */
+    .clock-24h__hand {
+      display: none;
+    }
+
+    /* Add hourly weather icon styles */
+    .hourly-weather {
+      font-size: 6px;
+      color: gray;
+    }
+
+    .hourly-weather i {
+      font-size: 8px;
+    }
+
+    /* Hide satellite clocks by default */
+    .satellite-clock {
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .satellite-clock.visible {
+      opacity: 1;
+    }
+
+    /* Base class for satellite hands */
+    .satellite-hand {
+      position: absolute;
+      bottom: 50%;
+      left: 50%;
+      background: #E0E1E1;
+      transform-origin: 3px 100%;
+      margin-left: -3px;
+      clip-path: polygon(40% 0, 60% 0, 80% 100%, 20% 100%);
+      z-index: 10;
+    }
+
+    /* Individual hand lengths */
+    .month-clock__hand {
+      composes: satellite-hand;
+      width: 6px;
+      height: 46px;
+    }
+
+    .year-clock__hand {
+      composes: satellite-hand;
+      width: 6px;
+      height: 40px;
+    }
+
+    .temp-hand {
+      composes: satellite-hand;
+      width: 6px;
+      height: 30px;
+    }
+
+    .weather-hand {
+      composes: satellite-hand;
+      width: 6px;
+      height: 28px;
+    }
   </style>
 </head>
 <body>
 <div class="bigbang">
     <div class="gravity-spot clock-frame" style="color: grey; --o-force: 320px">
+      <!-- Add Month Clock -->
+      <div class="orbit-15 satellite-clock">
+        <div class="satellite angle-135">
+          <div class="gravity-spot" style="--o-force: 340px;">
+            <div class="orbit">
+              <div class="vector month-clock__hand"></div>
+              <div class="satellite clock-label angle-0"><div class="capsule month-names">Day</div></div>
+            </div>
+            <div class="orbit-4">
+              <div class="satellite month-days-satellite angle-0"><div class="capsule month-days">1</div></div>
+              <div class="satellite month-days-satellite angle-11.6129"><div class="capsule month-days">2</div></div>
+              <div class="satellite month-days-satellite angle-23.2258"><div class="capsule month-days">3</div></div>
+              <div class="satellite month-days-satellite angle-34.8387"><div class="capsule month-days">4</div></div>
+              <div class="satellite month-days-satellite angle-46.4516"><div class="capsule month-days">5</div></div>
+              <div class="satellite month-days-satellite angle-58.0645"><div class="capsule month-days">6</div></div>
+              <div class="satellite month-days-satellite angle-69.6774"><div class="capsule month-days">7</div></div>
+              <div class="satellite month-days-satellite angle-81.2903"><div class="capsule month-days">8</div></div>
+              <div class="satellite month-days-satellite angle-92.9032"><div class="capsule month-days">9</div></div>
+              <div class="satellite month-days-satellite angle-104.5161"><div class="capsule month-days">10</div></div>
+              <div class="satellite month-days-satellite angle-116.129"><div class="capsule month-days">11</div></div>
+              <div class="satellite month-days-satellite angle-127.7419"><div class="capsule month-days">12</div></div>
+              <div class="satellite month-days-satellite angle-139.3548"><div class="capsule month-days">13</div></div>
+              <div class="satellite month-days-satellite angle-150.9677"><div class="capsule month-days">14</div></div>
+              <div class="satellite month-days-satellite angle-162.5806"><div class="capsule month-days">15</div></div>
+              <div class="satellite month-days-satellite angle-174.1935"><div class="capsule month-days">16</div></div>
+              <div class="satellite month-days-satellite angle-185.8064"><div class="capsule month-days">17</div></div>
+              <div class="satellite month-days-satellite angle-197.4193"><div class="capsule month-days">18</div></div>
+              <div class="satellite month-days-satellite angle-209.0322"><div class="capsule month-days">19</div></div>
+              <div class="satellite month-days-satellite angle-220.6451"><div class="capsule month-days">20</div></div>
+              <div class="satellite month-days-satellite angle-232.258"><div class="capsule month-days">21</div></div>
+              <div class="satellite month-days-satellite angle-243.8709"><div class="capsule month-days">22</div></div>
+              <div class="satellite month-days-satellite angle-255.4838"><div class="capsule month-days">23</div></div>
+              <div class="satellite month-days-satellite angle-267.0967"><div class="capsule month-days">24</div></div>
+              <div class="satellite month-days-satellite angle-278.7096"><div class="capsule month-days">25</div></div>
+              <div class="satellite month-days-satellite angle-290.3225"><div class="capsule month-days">26</div></div>
+              <div class="satellite month-days-satellite angle-301.9354"><div class="capsule month-days">27</div></div>
+              <div class="satellite month-days-satellite angle-313.5483"><div class="capsule month-days">28</div></div>
+              <div class="satellite month-days-satellite angle-325.1612"><div class="capsule month-days">29</div></div>
+              <div class="satellite month-days-satellite angle-336.7741"><div class="capsule month-days">30</div></div>
+              <div class="satellite month-days-satellite angle-348.387"><div class="capsule month-days">31</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Add Year/Month Clock -->
+      <div class="orbit-15 satellite-clock">
+        <div class="satellite angle-225">
+          <div class="gravity-spot" style="--o-force: 310px;">
+            <div class="orbit">
+              <div class="vector year-clock__hand"></div>
+              <div class="satellite clock-label angle-0"><div class="capsule month-names">Month</div></div>
+            </div>
+            <div class="orbit-4">
+              <div class="satellite angle-0"><div class="capsule month-names">Jan</div></div>
+              <div class="satellite angle-30"><div class="capsule month-names">Feb</div></div>
+              <div class="satellite angle-60"><div class="capsule month-names">Mar</div></div>
+              <div class="satellite angle-90"><div class="capsule month-names">Apr</div></div>
+              <div class="satellite angle-120"><div class="capsule month-names">May</div></div>
+              <div class="satellite angle-150"><div class="capsule month-names">Jun</div></div>
+              <div class="satellite angle-180"><div class="capsule month-names">Jul</div></div>
+              <div class="satellite angle-210"><div class="capsule month-names">Aug</div></div>
+              <div class="satellite angle-240"><div class="capsule month-names">Sep</div></div>
+              <div class="satellite angle-270"><div class="capsule month-names">Oct</div></div>
+              <div class="satellite angle-300"><div class="capsule month-names">Nov</div></div>
+              <div class="satellite angle-330"><div class="capsule month-names">Dec</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hourly Temp Clock -->
+      <div class="orbit-14 satellite-clock">
+        <div class="satellite angle-45">
+          <div class="gravity-spot" style="--o-force: 220px;">
+            <div class="orbit">
+              <div class="vector temp-hand"></div>
+              <div class="satellite clock-label angle-0"><div class="capsule month-names">Temp</div></div>
+            </div>
+            <div class="orbit-4">
+              <div class="satellite angle-0"><div class="capsule hourly-temp"></div></div>
+              <div class="satellite angle-30"><div class="capsule hourly-temp"></div></div>
+              <div class="satellite angle-60"><div class="capsule hourly-temp"></div></div>
+              <div class="satellite angle-90"><div class="capsule hourly-temp"></div></div>
+              <div class="satellite angle-120"><div class="capsule hourly-temp"></div></div>
+              <div class="satellite angle-150"><div class="capsule hourly-temp"></div></div>
+              <div class="satellite angle-180"><div class="capsule hourly-temp"></div></div>
+              <div class="satellite angle-210"><div class="capsule hourly-temp"></div></div>
+              <div class="satellite angle-240"><div class="capsule hourly-temp"></div></div>
+              <div class="satellite angle-270"><div class="capsule hourly-temp"></div></div>
+              <div class="satellite angle-300"><div class="capsule hourly-temp"></div></div>
+              <div class="satellite angle-330"><div class="capsule hourly-temp"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hourly Weather Clock -->
+      <div class="orbit-14 satellite-clock">
+        <div class="satellite angle-315">
+          <div class="gravity-spot" style="--o-force: 220px;">
+            <div class="orbit">
+              <div class="vector weather-hand"></div>
+              <div class="satellite clock-label angle-0"><div class="capsule month-names">Weather</div></div>
+            </div>
+            <div class="orbit-4">
+              <div class="satellite angle-0"><div class="capsule hourly-weather"><i></i></div></div>
+              <div class="satellite angle-30"><div class="capsule hourly-weather"><i></i></div></div>
+              <div class="satellite angle-60"><div class="capsule hourly-weather"><i></i></div></div>
+              <div class="satellite angle-90"><div class="capsule hourly-weather"><i></i></div></div>
+              <div class="satellite angle-120"><div class="capsule hourly-weather"><i></i></div></div>
+              <div class="satellite angle-150"><div class="capsule hourly-weather"><i></i></div></div>
+              <div class="satellite angle-180"><div class="capsule hourly-weather"><i></i></div></div>
+              <div class="satellite angle-210"><div class="capsule hourly-weather"><i></i></div></div>
+              <div class="satellite angle-240"><div class="capsule hourly-weather"><i></i></div></div>
+              <div class="satellite angle-270"><div class="capsule hourly-weather"><i></i></div></div>
+              <div class="satellite angle-300"><div class="capsule hourly-weather"><i></i></div></div>
+              <div class="satellite angle-330"><div class="capsule hourly-weather"><i></i></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div class="orbit-2">
         <div class="satellite burn-in-indicator"></div>
       </div>
    
+      <!-- big clock -->
+      <div class="orbit-0 clock">
+        <div class="vector outer-orbit hour-hand hand xh"></div>
+        <div class="vector outer-orbit minute-hand hand xm"></div>
+        <div class="vector outer-orbit second-hand hand xs"></div>
+        <div class="satellite at-center center"></div>
+      </div>
+
       <!-- Remove all tick marks -->
       <div class="orbit-10">
       </div>
@@ -323,14 +637,6 @@
         <div class="satellite minutes">58</div>
         <div class="satellite minutes">59</div>
       </div>
-      
-      <!-- big clock -->
-      <div class="orbit-0 clock">
-        <div class="vector outer-orbit hour-hand hand xh"></div>
-        <div class="vector outer-orbit minute-hand hand xm"></div>
-        <div class="vector outer-orbit second-hand hand xs"></div>
-        <div class="satellite at-center center"></div>
-      </div>
     </div>
   </div>
 
@@ -346,6 +652,38 @@
       const month = now.toLocaleString('en-US', { month: 'short' });
       const weekday = now.toLocaleString('en-US', { weekday: 'short' });
 
+      // Calculate days in current month
+      const daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+      
+      // Calculate angles for month and year clocks
+      const dayAngle = ((day - 1) * (360 / daysInMonth));
+      const monthAngle = (now.getMonth() * 30) + (day / daysInMonth * 30); // 360/12 = 30 degrees per month
+
+      // Update month hand
+      const monthHand = document.querySelector(".month-clock__hand");
+      if (monthHand) {
+        monthHand.style.transform = `rotate(${dayAngle}deg)`;
+      }
+
+      // Update year hand
+      const yearHand = document.querySelector(".year-clock__hand");
+      if (yearHand) {
+        yearHand.style.transform = `rotate(${monthAngle}deg)`;
+      }
+
+      // Update temperature and weather hands
+      const totalHours = hours % 12 + (minutes / 60) + (seconds / 3600) + (milliseconds / 3600000);
+      const hourAngle = totalHours * 30; // 360/12 = 30 degrees per hour
+
+      const tempHand = document.querySelector(".temp-hand");
+      const weatherHand = document.querySelector(".weather-hand");
+      if (tempHand) {
+        tempHand.style.transform = `rotate(${hourAngle}deg)`;
+      }
+      if (weatherHand) {
+        weatherHand.style.transform = `rotate(${hourAngle}deg)`;
+      }
+
       // Set current day
       const dayElement = document.querySelector('.day');
       dayElement.textContent = day;
@@ -358,7 +696,7 @@
       const weekdayElement = document.querySelector('.weekday');
       weekdayElement.textContent = weekday;
 
-      const hourAngle = (hours % 12) * 30 + 
+      const hourAngle12 = (hours % 12) * 30 + 
                         minutes * 0.5 + 
                         seconds * (0.5 / 60) + 
                         milliseconds * (0.5 / 60 / 1000);
@@ -375,7 +713,7 @@
       const minuteHand = document.querySelector(".xm");
       const secondHand = document.querySelector(".xs");
 
-      hourHand.style.transform = `rotate(${hourAngle}deg)`;
+      hourHand.style.transform = `rotate(${hourAngle12}deg)`;
       minuteHand.style.transform = `rotate(${minuteAngle}deg)`;
       secondHand.style.transform = `rotate(${secondAngle}deg)`;
     }
@@ -401,14 +739,77 @@
     // Start both update cycles
     analogWatch();
     smoothUpdate();
-    
+
+    // Load saved preferences from localStorage
+    let isHighContrast = localStorage.getItem('isHighContrast') === 'true';
+    let isBurnInProtection = localStorage.getItem('isBurnInProtection') === 'true';
+    let isSatelliteVisible = localStorage.getItem('isSatelliteVisible') === 'true';
+
+    // Apply saved preferences on load
+    function applyPreferences() {
+      // Apply high contrast mode
+      const secondHand = document.querySelector('.second-hand');
+      if (secondHand) {
+        secondHand.style.background = isHighContrast ? '#E0E1E1' : '#E60E00';
+      }
+
+      // Apply burn-in protection
+      const clockFrame = document.querySelector('.clock-frame');
+      if (clockFrame) {
+        if (isBurnInProtection) {
+          clockFrame.classList.add('burn-in-protection');
+        } else {
+          clockFrame.classList.remove('burn-in-protection');
+        }
+      }
+
+      // Apply satellite visibility
+      const satelliteClocks = document.querySelectorAll('.satellite-clock');
+      satelliteClocks.forEach(clock => {
+        if (isSatelliteVisible) {
+          clock.classList.add('visible');
+        } else {
+          clock.classList.remove('visible');
+        }
+      });
+    }
+
+    // Apply preferences on page load
+    applyPreferences();
+
+    function updateVisibleDays() {
+      const now = new Date();
+      const daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+      
+      // Get all day satellites
+      const daySatellites = document.querySelectorAll('.month-days-satellite');
+      
+      // Show/hide days based on current month
+      daySatellites.forEach((satellite, index) => {
+        if (index <= daysInMonth - 1) {
+          satellite.classList.add('visible');
+        } else {
+          satellite.classList.remove('visible');
+        }
+      });
+    }
+
+    // Update visible days initially and when month changes
+    updateVisibleDays();
+    setInterval(() => {
+      const now = new Date();
+      if (now.getDate() === 1 && now.getHours() === 0 && now.getMinutes() === 0 && now.getSeconds() === 0) {
+        updateVisibleDays();
+      }
+    }, 1000);
+
     async function getWeather(latitude, longitude) {
       try {
         // Default to Chicago coordinates if geolocation fails
         const lat = latitude || 41.8781;
         const lon = longitude || -87.6298;
 
-        const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code&daily=temperature_2m_max,temperature_2m_min&timezone=auto&temperature_unit=fahrenheit`);
+        const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code&daily=temperature_2m_max,temperature_2m_min&hourly=temperature_2m,weather_code&timezone=auto&temperature_unit=fahrenheit`);
         const data = await response.json();
 
         const weatherIcons = {
@@ -449,10 +850,127 @@
         currentTemp.textContent = `${Math.round(data.current.temperature_2m)}°`;
         highTemp.textContent = `H:${Math.round(data.daily.temperature_2m_max[0])}°`;
         lowTemp.textContent = `L:${Math.round(data.daily.temperature_2m_min[0])}°`;
+
+        // Update hourly temperatures and weather icons
+        const now = new Date();
+        const currentHour = now.getHours();
+        const currentHourPosition = currentHour % 12; // 0-11 (0 = 12 o'clock)
+        
+        const hourlyTemps = document.querySelectorAll('.hourly-temp');
+        const hourlyWeather = document.querySelectorAll('.hourly-weather i');
+        
+        // Simple approach: Just show 12 consecutive hours of data
+        for (let i = 0; i < 12; i++) {
+          // Calculate which position on the clock face to use (0-11)
+          const displayPosition = (currentHourPosition + i) % 12;
+          
+          // Calculate the correct data index - this needs to account for crossing to the next day
+          // The API data is structured as consecutive hours: 
+          // day1[0-23], day2[0-23], day3[0-23], etc.
+          // So to get the correct index, we just add i to the current hour
+          const dataIndex = currentHour + i;
+          
+          // Get temperature and weather (if data exists)
+          if (dataIndex < data.hourly.temperature_2m.length) {
+            const temperature = data.hourly.temperature_2m[dataIndex];
+            const weatherCode = data.hourly.weather_code[dataIndex];
+            
+            // Update the display
+            hourlyTemps[displayPosition].textContent = `${Math.round(temperature)}`;
+            hourlyWeather[displayPosition].className = `fa-solid ${weatherIcons[weatherCode] || 'fa-cloud'}`;
+          } else {
+            // Handle case where data doesn't exist
+            hourlyTemps[displayPosition].textContent = `--`;
+            hourlyWeather[displayPosition].className = `fa-solid fa-question`;
+          }
+        }
+
+        // Update weather hand
+        const weatherHand = document.querySelector(".weather-hand");
+        if (weatherHand) {
+          const totalHours = (now.getHours() % 12) + (now.getMinutes() / 60) + (now.getSeconds() / 3600) + (now.getMilliseconds() / 3600000);
+          const weatherAngle = totalHours * 30; // 360/12 = 30 degrees per hour
+          weatherHand.style.transform = `rotate(${weatherAngle}deg)`;
+        }
+        
+        // Run automatic unit test to validate the hourly temperature display
+        runWeatherDisplayTest(data);
       } 
       catch (error) {
         console.error('Error fetching weather:', error);
       }
+    }
+    
+    /**
+     * Unit test to validate the hourly temperature display against the API data
+     * @param {Object} data - The weather API data
+     */
+    function runWeatherDisplayTest(data) {
+      console.log('🧪 Running Weather Display Unit Test');
+      
+      const now = new Date();
+      const currentHour = now.getHours();
+      const currentHourPosition = currentHour % 12;
+      
+      const hourlyTemps = document.querySelectorAll('.hourly-temp');
+      let testPassed = true;
+      let errors = [];
+      
+      // Collect all expected vs actual values for logging
+      let comparisons = [];
+      
+      // Test each of the 12 positions on the clock
+      for (let i = 0; i < 12; i++) {
+        // Calculate which position on the clock face to check
+        const displayPosition = (currentHourPosition + i) % 12;
+        
+        // Calculate which hour's data should be used
+        const dataHour = (currentHour + i) % 24;
+        
+        // Get the expected temperature from the API data
+        const expectedTemp = Math.round(data.hourly.temperature_2m[dataHour]);
+        
+        // Get the actual displayed temperature
+        const actualTemp = parseInt(hourlyTemps[displayPosition].textContent);
+        
+        // Record the comparison
+        const clockHour = displayPosition === 0 ? 12 : displayPosition;
+        const comparison = {
+          clockPosition: `${clockHour} o'clock`,
+          dataHour: `${dataHour}:00`,
+          expected: expectedTemp,
+          actual: actualTemp,
+          passed: expectedTemp === actualTemp
+        };
+        
+        comparisons.push(comparison);
+        
+        // Check if they match
+        if (expectedTemp !== actualTemp) {
+          testPassed = false;
+          errors.push(`Mismatch at ${clockHour} o'clock position: Expected ${expectedTemp}°F, got ${actualTemp}°F`);
+        }
+      }
+      
+      // Log the test results
+      if (testPassed) {
+        console.log('%c✅ PASS: All hourly temperatures match the API data', 'color: green; font-weight: bold');
+      } else {
+        console.log('%c❌ FAIL: Mismatches found in hourly temperatures', 'color: red; font-weight: bold');
+        console.log('Errors:', errors);
+      }
+      
+      // Display detailed comparison table
+      console.log('Detailed comparison:');
+      console.table(comparisons);
+      
+      // Log the raw API data for reference
+      console.log('Current hour:', currentHour);
+      console.log('Current hour position on clock:', currentHourPosition === 0 ? 12 : currentHourPosition);
+      console.log('Raw API temperatures:', data.hourly.temperature_2m.slice(0, 24));
+      console.log('Raw API times:', data.hourly.time.slice(0, 24));
+      
+      return testPassed;
     }
 
     function updateWeather() {
@@ -495,18 +1013,17 @@
     // Add double-click handler to the document
     document.addEventListener('dblclick', toggleFullscreen);
 
-    let isHighContrast = false;
-    let isBurnInProtection = false;
-
     document.addEventListener('keydown', (event) => {
       if (event.key === 'c' || event.key === 'C') {
         isHighContrast = !isHighContrast;
+        localStorage.setItem('isHighContrast', isHighContrast);
         const secondHand = document.querySelector('.second-hand');
         if (secondHand) {
           secondHand.style.background = isHighContrast ? '#E0E1E1' : '#E60E00';
         }
       } else if (event.key === 'b' || event.key === 'B') {
         isBurnInProtection = !isBurnInProtection;
+        localStorage.setItem('isBurnInProtection', isBurnInProtection);
         const clockFrame = document.querySelector('.clock-frame');
         if (clockFrame) {
           if (isBurnInProtection) {
@@ -515,11 +1032,18 @@
             clockFrame.classList.remove('burn-in-protection');
           }
         }
+      } else if (event.key === 'v' || event.key === 'V') {
+        isSatelliteVisible = !isSatelliteVisible;
+        localStorage.setItem('isSatelliteVisible', isSatelliteVisible);
+        const satelliteClocks = document.querySelectorAll('.satellite-clock');
+        satelliteClocks.forEach(clock => {
+          clock.classList.toggle('visible');
+        });
       }
     });
   </script>
 
-  <!-- <script>
+  <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', async () => {
         try {
@@ -530,6 +1054,6 @@
         }
       });
     }
-  </script> -->
+  </script>
 </body>
 </html>
