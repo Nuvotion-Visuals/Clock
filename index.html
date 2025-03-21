@@ -93,6 +93,7 @@
       transform-origin: 50% 100%;
       background: #E0E1E1;
       clip-path: polygon(40% 0, 60% 0, 80% 100%, 20% 100%);
+      z-index: 10;
     }
 
     .hour-hand {
@@ -135,7 +136,7 @@
       left: 50%;
       transform: translate(-50%, -50%);
       border-radius: 50%;
-      z-index: 10;
+      z-index: 11;
     }
 
     .day, .month, .weekday {
@@ -203,6 +204,8 @@
       border-radius: 50%;
       opacity: 0;
       transition: opacity 0.3s ease;
+      z-index: 11;
+      border: 1px solid #E0E1E1 !important;
     }
 
     .burn-in-protection .burn-in-indicator {
@@ -223,13 +226,13 @@
       width: 6px;
       height: 45px;
       background: #E0E1E1;
-      transform-origin: 5px 100%;
-      margin-left: -5px;
+      transform-origin: 3px 100%;
+      margin-left: -3px;
       clip-path: polygon(40% 0, 60% 0, 80% 100%, 20% 100%);
       position: absolute;
       bottom: 50%;
       left: 50%;
-      z-index: 1;
+      z-index: 10;
     }
 
     /* Add center dots for satellite hands */
@@ -243,6 +246,22 @@
       height: 4px;
       background: #E0E1E1;
       border-radius: 50%;
+      z-index: 11;
+    }
+
+    /* Add center circles for satellite clocks */
+    .gravity-spot .orbit::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 8px;
+      height: 8px;
+      background: var(--Background);
+      border: 2px solid #E0E1E1;
+      border-radius: 50%;
+      z-index: 11;
     }
 
     .month-days {
@@ -286,61 +305,73 @@
     .hourly-weather i {
       font-size: 8px;
     }
+
+    /* Hide satellite clocks by default */
+    .satellite-clock {
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .satellite-clock.visible {
+      opacity: 1;
+    }
   </style>
 </head>
 <body>
 <div class="bigbang">
     <div class="gravity-spot clock-frame" style="color: grey; --o-force: 320px">
       <!-- Add Month Clock -->
-      <div class="orbit-15">
-        <div class="satellite angle-225">
+      <div class="orbit-15 satellite-clock">
+        <div class="satellite angle-135">
           <div class="gravity-spot" style="--o-force: 340px;">
             <div class="orbit">
               <div class="vector month-clock__hand"></div>
+              <div class="satellite clock-label angle-0"><div class="capsule month-names">Day</div></div>
             </div>
             <div class="orbit-4">
               <div class="satellite month-days-satellite angle-0"><div class="capsule month-days">1</div></div>
-              <div class="satellite month-days-satellite angle-12"><div class="capsule month-days">2</div></div>
-              <div class="satellite month-days-satellite angle-24"><div class="capsule month-days">3</div></div>
-              <div class="satellite month-days-satellite angle-36"><div class="capsule month-days">4</div></div>
-              <div class="satellite month-days-satellite angle-48"><div class="capsule month-days">5</div></div>
-              <div class="satellite month-days-satellite angle-60"><div class="capsule month-days">6</div></div>
-              <div class="satellite month-days-satellite angle-72"><div class="capsule month-days">7</div></div>
-              <div class="satellite month-days-satellite angle-84"><div class="capsule month-days">8</div></div>
-              <div class="satellite month-days-satellite angle-96"><div class="capsule month-days">9</div></div>
-              <div class="satellite month-days-satellite angle-108"><div class="capsule month-days">10</div></div>
-              <div class="satellite month-days-satellite angle-120"><div class="capsule month-days">11</div></div>
-              <div class="satellite month-days-satellite angle-132"><div class="capsule month-days">12</div></div>
-              <div class="satellite month-days-satellite angle-144"><div class="capsule month-days">13</div></div>
-              <div class="satellite month-days-satellite angle-156"><div class="capsule month-days">14</div></div>
-              <div class="satellite month-days-satellite angle-168"><div class="capsule month-days">15</div></div>
-              <div class="satellite month-days-satellite angle-180"><div class="capsule month-days">16</div></div>
-              <div class="satellite month-days-satellite angle-192"><div class="capsule month-days">17</div></div>
-              <div class="satellite month-days-satellite angle-204"><div class="capsule month-days">18</div></div>
-              <div class="satellite month-days-satellite angle-216"><div class="capsule month-days">19</div></div>
-              <div class="satellite month-days-satellite angle-228"><div class="capsule month-days">20</div></div>
-              <div class="satellite month-days-satellite angle-240"><div class="capsule month-days">21</div></div>
-              <div class="satellite month-days-satellite angle-252"><div class="capsule month-days">22</div></div>
-              <div class="satellite month-days-satellite angle-264"><div class="capsule month-days">23</div></div>
-              <div class="satellite month-days-satellite angle-276"><div class="capsule month-days">24</div></div>
-              <div class="satellite month-days-satellite angle-288"><div class="capsule month-days">25</div></div>
-              <div class="satellite month-days-satellite angle-300"><div class="capsule month-days">26</div></div>
-              <div class="satellite month-days-satellite angle-312"><div class="capsule month-days">27</div></div>
-              <div class="satellite month-days-satellite angle-324"><div class="capsule month-days">28</div></div>
-              <div class="satellite month-days-satellite angle-336"><div class="capsule month-days">29</div></div>
-              <div class="satellite month-days-satellite angle-348"><div class="capsule month-days">30</div></div>
-              <div class="satellite month-days-satellite angle-360"><div class="capsule month-days">31</div></div>
+              <div class="satellite month-days-satellite angle-11.6129"><div class="capsule month-days">2</div></div>
+              <div class="satellite month-days-satellite angle-23.2258"><div class="capsule month-days">3</div></div>
+              <div class="satellite month-days-satellite angle-34.8387"><div class="capsule month-days">4</div></div>
+              <div class="satellite month-days-satellite angle-46.4516"><div class="capsule month-days">5</div></div>
+              <div class="satellite month-days-satellite angle-58.0645"><div class="capsule month-days">6</div></div>
+              <div class="satellite month-days-satellite angle-69.6774"><div class="capsule month-days">7</div></div>
+              <div class="satellite month-days-satellite angle-81.2903"><div class="capsule month-days">8</div></div>
+              <div class="satellite month-days-satellite angle-92.9032"><div class="capsule month-days">9</div></div>
+              <div class="satellite month-days-satellite angle-104.5161"><div class="capsule month-days">10</div></div>
+              <div class="satellite month-days-satellite angle-116.129"><div class="capsule month-days">11</div></div>
+              <div class="satellite month-days-satellite angle-127.7419"><div class="capsule month-days">12</div></div>
+              <div class="satellite month-days-satellite angle-139.3548"><div class="capsule month-days">13</div></div>
+              <div class="satellite month-days-satellite angle-150.9677"><div class="capsule month-days">14</div></div>
+              <div class="satellite month-days-satellite angle-162.5806"><div class="capsule month-days">15</div></div>
+              <div class="satellite month-days-satellite angle-174.1935"><div class="capsule month-days">16</div></div>
+              <div class="satellite month-days-satellite angle-185.8064"><div class="capsule month-days">17</div></div>
+              <div class="satellite month-days-satellite angle-197.4193"><div class="capsule month-days">18</div></div>
+              <div class="satellite month-days-satellite angle-209.0322"><div class="capsule month-days">19</div></div>
+              <div class="satellite month-days-satellite angle-220.6451"><div class="capsule month-days">20</div></div>
+              <div class="satellite month-days-satellite angle-232.258"><div class="capsule month-days">21</div></div>
+              <div class="satellite month-days-satellite angle-243.8709"><div class="capsule month-days">22</div></div>
+              <div class="satellite month-days-satellite angle-255.4838"><div class="capsule month-days">23</div></div>
+              <div class="satellite month-days-satellite angle-267.0967"><div class="capsule month-days">24</div></div>
+              <div class="satellite month-days-satellite angle-278.7096"><div class="capsule month-days">25</div></div>
+              <div class="satellite month-days-satellite angle-290.3225"><div class="capsule month-days">26</div></div>
+              <div class="satellite month-days-satellite angle-301.9354"><div class="capsule month-days">27</div></div>
+              <div class="satellite month-days-satellite angle-313.5483"><div class="capsule month-days">28</div></div>
+              <div class="satellite month-days-satellite angle-325.1612"><div class="capsule month-days">29</div></div>
+              <div class="satellite month-days-satellite angle-336.7741"><div class="capsule month-days">30</div></div>
+              <div class="satellite month-days-satellite angle-348.387"><div class="capsule month-days">31</div></div>
             </div>
           </div>
         </div>
       </div>
 
       <!-- Add Year/Month Clock -->
-      <div class="orbit-15">
-        <div class="satellite angle-135">
-          <div class="gravity-spot" style="--o-force: 340px;">
+      <div class="orbit-15 satellite-clock">
+        <div class="satellite angle-225">
+          <div class="gravity-spot" style="--o-force: 300px;">
             <div class="orbit">
               <div class="vector year-clock__hand"></div>
+              <div class="satellite clock-label angle-0"><div class="capsule month-names">Month</div></div>
             </div>
             <div class="orbit-4">
               <div class="satellite angle-0"><div class="capsule month-names">Jan</div></div>
@@ -361,11 +392,12 @@
       </div>
 
       <!-- Add 24-hour clock in its own orbit -->
-      <div class="orbit-15">
+      <div class="orbit-15 satellite-clock">
         <div class="satellite angle-45">
           <div class="gravity-spot" style="--o-force: 340px;">
             <div class="orbit">
               <div class="vector temp-hand"></div>
+              <div class="satellite clock-label angle-0"><div class="capsule month-names">Temp</div></div>
             </div>
             <div class="orbit-4">
               <div class="satellite angle-0"><div class="capsule hourly-temp"></div></div>
@@ -398,11 +430,12 @@
       </div>
 
       <!-- Add hourly weather clock -->
-      <div class="orbit-15">
+      <div class="orbit-15 satellite-clock">
         <div class="satellite angle-315">
           <div class="gravity-spot" style="--o-force: 340px;">
             <div class="orbit">
               <div class="vector weather-hand"></div>
+              <div class="satellite clock-label angle-0"><div class="capsule month-names">Weather</div></div>
             </div>
             <div class="orbit-4">
               <div class="satellite angle-0"><div class="capsule hourly-weather"><i></i></div></div>
@@ -570,7 +603,7 @@
       const daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
       
       // Calculate angles for month and year clocks
-      const dayAngle = (day - 1) * (360 / daysInMonth);
+      const dayAngle = ((day - 1) * (360 / daysInMonth));
       const monthAngle = (now.getMonth() * 30) + (day / daysInMonth * 30); // 360/12 = 30 degrees per month
 
       // Update month hand
@@ -663,7 +696,7 @@
       
       // Show/hide days based on current month
       daySatellites.forEach((satellite, index) => {
-        if (index < daysInMonth) {
+        if (index <= daysInMonth - 1) {
           satellite.classList.add('visible');
         } else {
           satellite.classList.remove('visible');
@@ -740,7 +773,7 @@
           const hour = index;  // API data is already ordered starting from current hour
           const temperature = Math.round(data.hourly.temperature_2m[hour]);
           const weatherCode = data.hourly.weather_code[hour];
-          temp.textContent = `${temperature}°`;
+          temp.textContent = `${temperature}`;
           
           // Update weather icon
           hourlyWeather[index].className = `fa-solid ${weatherIcons[weatherCode] || 'fa-cloud'}`;
@@ -819,6 +852,11 @@
             clockFrame.classList.remove('burn-in-protection');
           }
         }
+      } else if (event.key === 'v' || event.key === 'V') {
+        const satelliteClocks = document.querySelectorAll('.satellite-clock');
+        satelliteClocks.forEach(clock => {
+          clock.classList.toggle('visible');
+        });
       }
     });
   </script>
