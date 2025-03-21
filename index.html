@@ -195,12 +195,28 @@
     .burn-in-protection {
       animation: antiBurnIn 600s infinite ease-in-out;
     }
+
+    .burn-in-indicator {
+      width: 2px;
+      height: 2px;
+      background-color: #121212;
+      border-radius: 50%;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .burn-in-protection .burn-in-indicator {
+      opacity: 0.5;
+    }
   
   </style>
 </head>
 <body>
 <div class="bigbang">
     <div class="gravity-spot clock-frame" style="color: grey; --o-force: 320px">
+      <div class="orbit-2">
+        <div class="satellite burn-in-indicator"></div>
+      </div>
    
       <!-- Remove all tick marks -->
       <div class="orbit-10">
